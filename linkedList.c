@@ -79,13 +79,14 @@ Status DeleteList(LNode *p, ElemType *e) {
  *  @notice      : None
  */
 void TraverseList(LinkedList L, void (*visit)(ElemType e)) {
-    LNode *p;
-    p = L->next;//创建一个指针来遍历
-    while(p){
-        visit(p->data);//打印
-        p = p->next;
+        LNode *p;
+        p = L->next;//创建一个指针来遍历
+        int data;
+        while(p){
+            data=p->data;
+            printf("%d",data);
+            p = p->next;}
     }
-}
 
 /**
  *  @name        : void visit(ElemType e)

@@ -112,7 +112,7 @@ void TraverseList_DuL(DuLinkedList L, void (*visit)(ElemType e))//L为指向结�
     int data;
     while(p){
         data=p->data;
-        printf(data);//这里就是打印不出来，有段错误，为什么？
+        printf("%d",data);
         p = p->next;}
     }
 
