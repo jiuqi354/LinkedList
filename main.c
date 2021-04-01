@@ -1,11 +1,13 @@
 #include "duLinkedList.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 int DuListEmpty(DuLinkedList L);
 
 int main(){
     ElemType e=0;
-    int choice=0,data=0;
+    char choice,num[1024];
+    int data=0;
     DuLinkedList head=NULL;//这里不能直接建立2级指针，要用&，不然会出现一堆意想不到的段错误T_T
     DuLinkedList p=NULL,q=NULL;
     for(;;){
@@ -19,9 +21,9 @@ int main(){
     puts("7.清空屏幕\n");
     puts("8.退出\n");
     puts("请输入你的选择所对应的数字（1-8）:");
-    scanf("%d",&choice);
+    scanf("%s",&choice);
     switch (choice) {
-        case 1:
+        case '1':
             if(DuListEmpty(head)!=0){
                 break;
             }
@@ -29,11 +31,11 @@ int main(){
                 puts("创建链表成功\n");
             else{puts("创建链表失败\n");}
             break;
-        case 2:
+        case '2':
             DestroyList_DuL(&head);
             puts("摧毁成功\n");
             break;
-        case 3:
+        case '3':
             if(DuListEmpty(head)==0){
                 break;
             }
@@ -44,7 +46,7 @@ int main(){
             printf("请输入需要插入的位置对应的结点的数据：");
             scanf("%d",&data);
         A:  printf("若要插到该结点后面请按1，要插到前头请按2:");
-            scanf("%d",&choice);
+            scanf("%s",&choice);
             //因为search函数仅返回status，所以这里我只能再来一个遍历
             p=head;//用p来指向插入点
             for(int i=0;p;i++){
@@ -58,13 +60,13 @@ int main(){
                 break;
             }
             switch (choice) {
-                case 1:
+                case '1':
                     if(InsertAfterList_DuL(p,q)==SUCCESS){
                     printf("插入成功");
                     break;}
                     puts("插入失败");
                     break;
-                case 2:
+                case '2':
                     if(InsertBeforeList_DuL(p,q)==SUCCESS){
                     printf("插入成功");
                     break;}
@@ -75,7 +77,7 @@ int main(){
                     goto A;
             }
             break;
-        case 4:
+        case '4':
             if(DuListEmpty(head)==0){
                 break;
             }
@@ -95,14 +97,14 @@ int main(){
             }
             DeleteList_DuL(p,&e);
             break;
-        case 5:
+        case '5':
             if(DuListEmpty(head)!=1){
                 break;
             }
             TraverseList_DuL(head, (void (*)(ElemType)) &e);
             puts("\n遍历结束\n");
             break;
-        case 6://暂时只能添加一次，循环的话用getchar会吃了我的数据所以不行……
+        case '6'://暂时只能添加一次，循环的话用getchar会吃了我的数据所以不行……
         if(!head){
             puts("未创建链表，请先创建链表！\n");
             break;
@@ -122,19 +124,31 @@ int main(){
             p->next=q;
             q->data=data;}
             这个会吃数据，已舍弃
-         */
-            printf("请输入要加入的数据：\n");
-            scanf("%d",&data);
+         */int i;
+         for(;;){
+            printf("请输入要加入的数据,要退出请直接按回车：\n");
+            fflush(stdin);
+            strcpy(num,"");
+            scanf("%[^\n]",&num);
+            if(num[0]=='\0'){
+                break;
+            }
+            i=sscanf(num,"%d",&data);
+            if(i==0||i==-1){
+                puts("你的输入有误，请重新输入");
+                continue;}
             q=(DuLinkedList)malloc(sizeof(DuLinkedList));
             p->next=q;
             q->data=data;
             q->prior=p;
-            puts("添加成功");
+            q->next=NULL;
+            p=q;
+            puts("添加成功");}
             break;
-        case 7:
+        case '7':
             system("cls");
             break;
-        case 8:
+        case '8':
             exit(0);
         default:
             printf("输入错误，返回菜单\n");
